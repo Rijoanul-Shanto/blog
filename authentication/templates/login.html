@@ -25,21 +25,25 @@
                         <p>Please login to see this page.</p>
                     {% endif %}
                 {% endif %}
-                <form method="post" action="{% url 'login' %}">
+                <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Email*</label>
-                            <input type="email" name="username" class="form-control" id="email" required
-                                   data-validation-required-message="Please enter your email.">
+                            <input type="email" name="username" class="form-control" id="email" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
                             <p class="help-block"></p>
                         </div>
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Password*</label>
-                            <input type="password" name="password" class="form-control" id="password" required
-                                   data-validation-required-message="Please enter your password.">
+                            <input type="password" name="password" class="form-control" id="password" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
                         </div>
                     </div>
                     <div id="success"></div>
@@ -53,4 +57,26 @@
     </div>
     <!-- /.container -->
 {% endblock container %}
+
+{% block extra_script %}
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                let forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                let validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+{% endblock %}
 

@@ -14,36 +14,69 @@
         <!-- Content Row -->
         <div class="row">
             <div class="col-lg-4 mb-4">
-                <form name="sentMessage" id="contactForm" novalidate>
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>First Name*</label>
-                            <input type="text" class="form-control" id="first_name" required data-validation-required-message="Please enter your first name.">
-                            <p class="help-block"></p>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            {% if form.errors.first_name %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.errors.first_name %}
+                                        <li>{{ error }} {{ key }}</li>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="controls">
                         <label>Last Name*</label>
-                        <input type="text" class="form-control" id="last_name" required data-validation-required-message="Please enter your last name.">
-                        <p class="help-block"></p>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        {% if form.errors.last_name %}
+                            <div class="alert alert-danger">
+                                {% for error in form.errors.last_name %}
+                                    <li>{{ error }} {{ key }}</li>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Email*</label>
-                            <input type="email" class="form-control" id="email" required data-validation-required-message="Please enter your email.">
-                            <p class="help-block"></p>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            {% if form.errors.email %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.errors.email %}
+                                        <li>{{ error }} {{ key }}</li>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Password*</label>
-                            <input type="password" class="form-control" id="password" required data-validation-required-message="Please enter your password.">
+                            <input type="password" class="form-control" id="password" name="password1" required>
+                            {% if form.errors.password1 %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.errors.password1 %}
+                                        <li>{{ error }} {{ key }}</li>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Confirm Password*</label>
-                            <input type="password" class="form-control" id="confirm-password" required data-validation-required-message="Please confirm your password.">
+                            <input type="password" class="form-control" id="confirm-password" name="password2" required>
+                            {% if form.errors.password2 %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.errors.password2 %}
+                                        <li>{{ error }} {{ key }}</li>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div id="success"></div>
@@ -57,4 +90,63 @@
     </div>
     <!-- /.container -->
 {% endblock container %}
+
+{% block extra_script %}
+    <script>
+        $('#confirm-password').keyup(function () {
+            let value = this.value;
+            let pass = $("#password").val();
+            if (value === pass && pass.length > 0) {
+                $("#confirm-password").addClass("custom-valid");
+                $("#password").addClass("custom-valid");
+                $("#confirm-password").removeClass("custom-invalid");
+                $("#password").removeClass("custom-invalid");
+            } else {
+                $("#confirm-password").addClass("custom-invalid");
+                $("#password").addClass("custom-invalid");
+                $("#confirm-password").removeClass("custom-valid");
+                $("#password").removeClass("custom-valid");
+            }
+        });
+        $('#first_name').keyup(function () {
+            let value = this.value;
+            if (value.length > 0) {
+                $("#first_name").addClass("custom-valid");
+                $("#first_name").removeClass("custom-invalid");
+            } else {
+                $("#first_name").addClass("custom-invalid");
+                $("#first_name").removeClass("custom-valid");
+            }
+        });
+        $('#last_name').keyup(function () {
+            let value = this.value;
+            if (value.length > 0) {
+                $("#last_name").addClass("custom-valid");
+                $("#last_name").removeClass("custom-invalid");
+            } else {
+                $("#last_name").addClass("custom-invalid");
+                $("#last_name").removeClass("custom-valid");
+            }
+        });
+        $('#email').keyup(function () {
+            let value = this.value;
+            if (value.length > 0 && IsEmail(value)) {
+                $("#email").addClass("custom-valid");
+                $("#email").removeClass("custom-invalid");
+            } else {
+                $("#email").addClass("custom-invalid");
+                $("#email").removeClass("custom-valid");
+            }
+        });
+
+        function IsEmail(email) {
+            var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test(email)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+{% endblock %}
 
