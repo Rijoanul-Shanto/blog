@@ -16,7 +16,7 @@ $ pip install -r requirements.txt
 ```
 - Make .env file to the root directory of the project including following variables without space between '=' sign.
 ```shell script
-DEBUG=True-of-False
+DEBUG=True-or-False
 SECRET_KEY=your-project-secret-key
 SQLITE_URL=sqlite:///your-sqlite-file
 ```
@@ -29,7 +29,7 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
-Then visit `http://localhost:8080` to view the app.
+Then visit `http://localhost:8000` to view the app.
 
 ## Deploy to Heroku
 This application is currently available on Heroku.
