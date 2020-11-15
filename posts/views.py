@@ -15,5 +15,13 @@ class PostsView(View):
 
 
 # POST DETAILS VIEW ENDPOINT
-def post_details(request):
-    return render(request, 'posts/blog-post.html')
+class PostDetailsView(View):
+    @staticmethod
+    def get(request, post_id):
+        response = requests.get('https://jsonplaceholder.typicode.com/posts/{}'.format(post_id))
+        post = response.json()
+
+        response = requests.get('https://jsonplaceholder.typicode.com/posts/{}/comments'.format(post_id))
+        comments = response.json()
+
+        return render(request, 'blog-post.html', {"post": post, "comments": comments})
