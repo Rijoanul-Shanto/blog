@@ -8,7 +8,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['https://my-example-blog.herokuapp.com/']
+ALLOWED_HOSTS = ['my-example-blog.herokuapp.com']
 
 # Application definition
 
