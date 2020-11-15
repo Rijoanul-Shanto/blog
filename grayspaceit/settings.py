@@ -1,12 +1,16 @@
 from pathlib import Path
-import os
 from datetime import timedelta
+import os
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+env = environ.Env()
+env.read_env()
 
-DEBUG = os.environ.get('DEBUG')
+SECRET_KEY = env.str('SECRET_KEY')
+
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['my-example-blog.herokuapp.com']
 
@@ -66,14 +70,7 @@ AUTH_USER_MODEL = 'authentication.User'
 # Database
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('NAME'),
-        'USER': os.environ.get('USER'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
-    }
+    'default': env.db() if env.str('DATABASE_URL', default='') else env.db('SQLITE_URL', default='sqlite:///db.sqlite3')
 }
 
 # Password validation
