@@ -1,6 +1,7 @@
 # Django Example Blog
 
-##Setup
+## Setup
+
 - Clone the repository
 
 ```shell script
