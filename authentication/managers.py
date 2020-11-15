@@ -12,7 +12,7 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name)
 
-        user.set_password(make_password(password))
+        user.set_password(password)
         user.save()
         return user
 
