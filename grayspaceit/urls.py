@@ -9,4 +9,5 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('posts/', include('posts.urls')),
     path('', PostsView.as_view(), name="posts"),
+    path('api/', include('api.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
