@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block container %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">Blog Home Two
+            <small>Subheading</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item active">Blog Home 2</li>
+        </ol>
+
+        <!-- Blog Post -->
+        {% for post in data %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a href="#">
+                                <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <h2 class="card-title">{{ post.title }}</h2>
+                            <p class="card-text">{{ post.body | truncatewords:30 }}</p>
+                            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on January 1, 2017 by
+                    <a href="#">Start Bootstrap</a>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center mb-4">
+            <li class="page-item">
+                <button class="page-link" type="button" id="old">&larr; Older</button>
+            </li>
+            <li class="page-item">
+                <button class="page-link" type="button" id="new">Newer &rarr;</button>
+            </li>
+        </ul>
+
+    </div>
+    <!-- /.container -->
+
+
+{% endblock %}
+
+{% block extra_script %}
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    toastr.success("{{ message }}");
+                {% else %}
+                    toastr.error("{{ message }}")
+                {% endif %}
+            {% endfor %}
+        </script>
+    {% endif %}
+
+    <script>
+        let urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('page')) {
+            window.value = parseInt(urlParams.get('page'));
+        } else {
+            window.value = 20;
+        }
+
+        $(document).ready(function () {
+            console.log(window.value);
+            $("#new").click(function () {
+                window.value++;
+                window.location.href = `{% url 'posts' %}?page=${window.value}`
+            });
+            $("#old").click(function () {
+                window.value--;
+                window.location.href = `{% url 'posts' %}?page=${window.value}`
+            });
+
+            if (window.value >= 20) {
+                $("#new").parent().addClass("disabled");
+                $('#new').parent().css('cursor', 'not-allowed');
+            }
+            if (window.value <= 1) {
+                $("#old").parent().addClass("disabled");
+                $('#old').parent().css('cursor', 'not-allowed');
+            }
+        });
+    </script>
+
+{% endblock %}
