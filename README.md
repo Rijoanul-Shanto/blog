@@ -34,4 +34,4 @@ Then visit `http://localhost:8000` to view the app.
 ## Deploy to Heroku
 This application is currently available on Heroku.
 
-visit: https://example-blog.herokuapp.com/
+visit: https://my-example-blog.herokuapp.com/
