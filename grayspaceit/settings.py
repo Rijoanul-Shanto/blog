@@ -10,7 +10,7 @@ env.read_env()
 
 SECRET_KEY = env.str('SECRET_KEY')
 
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['my-example-blog.herokuapp.com']
 
